@@ -572,7 +572,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
             hasGetDistrictsWithSellers.current = true;
 
             try {
-                const response = await axios.get("/api/admin/GetDistrictsWithSellers");
+                const response = await axios.get(`${api_url}/api/admin/GetDistrictsWithSellers`);
                 if (response.data?.status === "Success" && Array.isArray(response.data.data)) {
                     setDistricts(response.data.data);
                 } else {
