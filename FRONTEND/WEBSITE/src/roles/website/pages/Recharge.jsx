@@ -8,6 +8,8 @@ import { State } from "country-state-city";
 import { Modal, Button } from "react-bootstrap";
 
 const Recharge = ({ userInfo, token, handleLogout }) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const img_url = import.meta.env.VITE_IMG_URL || "https://water-purifier.onrender.com";
 
     const durationRef = useRef(null);
@@ -38,7 +40,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
             hasFetched.current = true;
             setLoading(true);
             try {
-                const response = await axios.get('/api/website/products/productswithplan');
+                const response = await axios.get(`${api_url}/api/website/products/productswithplan`);
                 const productArray = response.data?.data || [];
                 const filteredProducts = productArray.filter(p => p.status === true);
                 setProducts(filteredProducts);
@@ -185,7 +187,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
 
             const token = sessionStorage.getItem("WebToken");
 
-            const res = await fetch("/api/website/orders/renewsubscription", {
+            const res = await fetch(`${api_url}/api/website/orders/renewsubscription`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -223,7 +225,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
                     });
 
                     try {
-                        const verifyRes = await fetch("/api/website/orders/orderverify", {
+                        const verifyRes = await fetch(`${api_url}/api/website/orders/orderverify`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -253,7 +255,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
                 },
                 modal: {
                     ondismiss: async () => {
-                        await fetch("/api/website/orders/ordercancel", {
+                        await fetch(`${api_url}/api/website/orders/ordercancel`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -377,7 +379,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
 
             try {
                 const response = await axios.get(
-                    `/api/website/orders/userdevices/${userInfo.user_id}`
+                    `${api_url}/api/website/orders/userdevices/${userInfo.user_id}`
                 );
 
                 const devicesObj = response.data?.devices || {};

@@ -8,6 +8,8 @@ import { getDistricts } from "india-state-district";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Profile = ({ userInfo: propUserInfo, token: propToken, handleLogout }) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const sessionUser = (() => {
         try {
             const s = sessionStorage.getItem("WebUser");
@@ -120,7 +122,7 @@ const Profile = ({ userInfo: propUserInfo, token: propToken, handleLogout }) => 
             try {
                 setLoadingProfile(true);
                 const { data: response } = await axios.post(
-                    "/api/app/settings/fetchuserdetails",
+                    `${api_url}/api/app/settings/fetchuserdetails`,
                     {
                         user_id: userInfo.user_id,
                         email: userInfo.email,
@@ -257,7 +259,7 @@ const Profile = ({ userInfo: propUserInfo, token: propToken, handleLogout }) => 
 
         try {
             const { data: resp } = await axios.post(
-                "/api/app/settings/updateuserdetails",
+                `${api_url}/api/app/settings/updateuserdetails`,
                 payload,
                 {
                     headers: { Authorization: `Bearer ${authToken}` },
