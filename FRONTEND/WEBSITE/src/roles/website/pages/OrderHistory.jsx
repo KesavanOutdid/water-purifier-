@@ -4,6 +4,8 @@ import Footer from '../components/Footer';
 import axios from "axios";
 
 const OrderHistory = ({ userInfo, token, handleLogout }) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const img_url = import.meta.env.VITE_IMG_URL || "https://water-purifier.onrender.com";
 
     const [paymentHistory, setPaymentHistory] = useState([]);
@@ -19,7 +21,7 @@ const OrderHistory = ({ userInfo, token, handleLogout }) => {
             setLoading(true);
             try {
                 const response = await axios.post(
-                    "/api/app/settings/fetchpaymenthistory",
+                    `${api_url}/api/app/settings/fetchpaymenthistory`,
                     { user_id: userInfo.user_id },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
@@ -101,7 +103,7 @@ const OrderHistory = ({ userInfo, token, handleLogout }) => {
     // Download invoice PDF
     const handleDownloadInvoice = async (orderId) => {
         try {
-            const url = `/api/website/orders/${orderId}/invoice`;
+            const url = `${api_url}/api/website/orders/${orderId}/invoice`;
 
             const response = await axios.get(url, {
                 responseType: "blob", // Important for binary PDF data

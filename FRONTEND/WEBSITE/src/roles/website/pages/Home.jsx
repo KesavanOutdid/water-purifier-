@@ -9,6 +9,8 @@ import { getDistricts } from "india-state-district";
 import { Modal, Button } from "react-bootstrap";
 
 const Home = ({ userInfo, token, handleLogout }) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const img_url = import.meta.env.VITE_IMG_URL || "https://water-purifier.onrender.com";
 
     const durationRef = useRef(null);
@@ -80,7 +82,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
             hasFetched.current = true;
             setLoading(true);
             try {
-                const response = await axios.get('/api/website/products/productswithplan');
+                const response = await axios.get(`${api_url}/api/website/products/productswithplan`);
                 const productArray = response.data?.data || [];
                 const filteredProducts = productArray.filter(p => p.status === true);
                 setProducts(filteredProducts);
@@ -311,7 +313,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
 
             const token = sessionStorage.getItem("WebToken");
 
-            const res = await fetch("/api/website/orders/orderplace", {
+            const res = await fetch(`${api_url}/api/website/orders/orderplace`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -378,7 +380,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
                     });
 
                     try {
-                        const verifyRes = await fetch("/api/website/orders/orderverify", {
+                        const verifyRes = await fetch(`${api_url}/api/website/orders/orderverify`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -418,7 +420,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
                 },
                 modal: {
                     ondismiss: async () => {
-                        await fetch("/api/website/orders/ordercancel", {
+                        await fetch(`${api_url}/api/website/orders/ordercancel`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -518,7 +520,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
         }
 
         try {
-            const response = await fetch("/api/website/contact/submitcontact", {
+            const response = await fetch(`${api_url}/api/website/contact/submitcontact`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, subject, message }),
