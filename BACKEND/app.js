@@ -45,7 +45,14 @@ app.use(express.json());
 
 // Serve static files from public directory
 // app.use('/upload', cors(), express.static(path.join(__dirname, '..', 'upload')));
-app.use('/upload', express.static(path.join(__dirname, 'upload')));
+app.use('/upload', cors(), express.static(path.join(__dirname, 'upload')));
+
+app.use('/upload', cors({
+    origin: "*",
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: "Content-Type"
+}), express.static(path.join(__dirname, 'upload')));
+
 
 // Logger Middleware for Incoming Requests
 app.use((req, res, next) => {
