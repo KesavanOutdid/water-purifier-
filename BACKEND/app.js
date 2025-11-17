@@ -30,7 +30,16 @@ const path = require('path');
 const app = express();
 
 // Middleware: Secure HTTP Headers
-app.use(helmet());
+// app.use(helmet());
+// Middleware: Secure HTTP Headers (FIX for image loading)
+app.use(
+    helmet({
+        contentSecurityPolicy: false,
+        crossOriginOpenerPolicy: false,
+        crossOriginEmbedderPolicy: false,
+        crossOriginResourcePolicy: false,
+    })
+);
 
 // Middleware: CORS - Allow all origins (can be restricted later)
 app.use(cors({
@@ -52,7 +61,6 @@ app.use('/upload', cors({
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: "Content-Type"
 }), express.static(path.join(__dirname, 'upload')));
-
 
 // Logger Middleware for Incoming Requests
 app.use((req, res, next) => {
