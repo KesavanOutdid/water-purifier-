@@ -4,6 +4,8 @@ import Footer from '../components/Footer';
 import axios from "axios";
 
 const OrderHistory = ({ userInfo, token, handleLogout }) => {
+    const img_url = import.meta.env.VITE_IMG_URL || "https://water-purifier.onrender.com";
+
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedOrderId, setExpandedOrderId] = useState(null);
@@ -209,7 +211,7 @@ const OrderHistory = ({ userInfo, token, handleLogout }) => {
                                                     {/* Product Image */}
                                                     {order.main_image || order.product_model_images?.main_img ? (
                                                         <img
-                                                            src={`/upload/img/${order.main_image || order.product_model_images?.main_img}`}
+                                                            src={`${img_url}/upload/img/${order.main_image || order.product_model_images?.main_img}`}
                                                             alt={order.modelName}
                                                             style={{
                                                                 width: "100px",

@@ -9,6 +9,8 @@ import { getDistricts } from "india-state-district";
 import { Modal, Button } from "react-bootstrap";
 
 const Home = ({ userInfo, token, handleLogout }) => {
+    const img_url = import.meta.env.VITE_IMG_URL || "https://water-purifier.onrender.com";
+
     const durationRef = useRef(null);
     const scrollRef = useRef(null);
     let scrollInterval;
@@ -945,7 +947,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
 
                                                 <div className="col-lg-6 col-12 text-center" style={{ padding: '20px' }}>
                                                     <img
-                                                        src={`/upload/img/${mainImage || products[selectedModelIndex]?.main_img}`}
+                                                        src={`${img_url}/upload/img/${mainImage || products[selectedModelIndex]?.main_img}`}
                                                         alt="Main Product"
                                                         className="img-fluid mb-3"
                                                         style={{
@@ -963,7 +965,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
                                                             return subImg ? (
                                                                 <img
                                                                     key={num}
-                                                                    src={`/upload/img/${subImg}`}
+                                                                    src={`${img_url}/upload/img/${subImg}`}
                                                                     alt={`Sub ${num}`}
                                                                     className="rounded"
                                                                     style={{
@@ -979,7 +981,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
                                                         })}
                                                         {products[selectedModelIndex]?.main_img && (
                                                             <img
-                                                                src={`/upload/img/${products[selectedModelIndex].main_img}`}
+                                                                src={`${img_url}/upload/img/${products[selectedModelIndex].main_img}`}
                                                                 alt="Main Preview"
                                                                 className="rounded"
                                                                 style={{
@@ -1131,7 +1133,7 @@ const Home = ({ userInfo, token, handleLogout }) => {
                                                                 }}
                                                             >
                                                                 <img
-                                                                    src={`/upload/img/${product.main_img}`}
+                                                                    src={`${img_url}/upload/img/${product.main_img}`}
                                                                     alt={product.model_name}
                                                                     className="card-img-top"
                                                                     style={{

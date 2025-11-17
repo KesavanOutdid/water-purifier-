@@ -8,6 +8,8 @@ import { State } from "country-state-city";
 import { Modal, Button } from "react-bootstrap";
 
 const Recharge = ({ userInfo, token, handleLogout }) => {
+    const img_url = import.meta.env.VITE_IMG_URL || "https://water-purifier.onrender.com";
+
     const durationRef = useRef(null);
     const scrollRef = useRef(null);
     let scrollInterval;
@@ -611,7 +613,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
                                                 <div className="col-lg-6 col-12 text-center" style={{ padding: '20px' }}>
                                                     {selectedProductByModelId?.main_img ? (
                                                         <img
-                                                            src={`/upload/img/${selectedProductByModelId.main_img}`}
+                                                            src={`${img_url}/upload/img/${selectedProductByModelId.main_img}`}
                                                             alt={selectedProductByModelId.model_name || "Product"}
                                                             className="img-fluid mb-3"
                                                             style={{
@@ -633,7 +635,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
                                                             return subImg ? (
                                                                 <img
                                                                     key={num}
-                                                                    src={`/upload/img/${subImg}`}
+                                                                    src={`${img_url}/upload/img/${subImg}`}
                                                                     alt={`Sub ${num}`}
                                                                     className="rounded"
                                                                     style={{
@@ -650,7 +652,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
 
                                                         {selectedProductByModelId?.main_img && (
                                                             <img
-                                                                src={`/upload/img/${selectedProductByModelId.main_img}`}
+                                                                src={`${img_url}/upload/img/${selectedProductByModelId.main_img}`}
                                                                 alt="Main Preview"
                                                                 className="rounded"
                                                                 style={{
@@ -740,7 +742,7 @@ const Recharge = ({ userInfo, token, handleLogout }) => {
                                                                         }}
                                                                     >
                                                                         <img
-                                                                            src={`/upload/img/${product.main_img}`}
+                                                                            src={`${img_url}/upload/img/${product.main_img}`}
                                                                             alt={product.model_name}
                                                                             className="card-img-top"
                                                                             style={{
