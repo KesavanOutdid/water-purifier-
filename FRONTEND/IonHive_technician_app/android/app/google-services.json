@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "34783787568",
+    "project_id": "outdid-vts",
+    "storage_bucket": "outdid-vts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34783787568:android:146998a6e984e0a8078bf5",
+        "android_client_info": {
+          "package_name": "com.outdid.ionhive_technician"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfv3GKwcIpVpJEeiffwJaKOEXwXqNLgS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34783787568:android:5bf0042df7f23a26078bf5",
+        "android_client_info": {
+          "package_name": "com.outdid.ionhive_water_purifier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfv3GKwcIpVpJEeiffwJaKOEXwXqNLgS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
