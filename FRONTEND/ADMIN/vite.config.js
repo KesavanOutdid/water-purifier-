@@ -9,14 +9,14 @@ export default defineConfig({
         strictPort: true,
         proxy: {
             '/api': {
-                target: 'http://localhost:5001',
+                target: 'https://water-purifier.onrender.com',
                 changeOrigin: true,
                 rewrite: path => path.replace(/^\/api/, ''),
             },
-            '/upload': {
-                target: 'http://localhost:5001',
-                changeOrigin: true,
-            },
+            // '/upload': {
+            //     target: 'http://localhost:5001',
+            //     changeOrigin: true,
+            // },
         },
     },
     build: {
@@ -41,13 +41,13 @@ export default defineConfig({
         // Increase chunk size warning limit
         chunkSizeWarningLimit: 1000,
         // Enable minification
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
-            },
-        },
+        // minify: 'terser',
+        // terserOptions: {
+        //     compress: {
+        //         drop_console: true,
+        //         drop_debugger: true,
+        //     },
+        // },
     },
     // Optimize dependencies
     optimizeDeps: {
