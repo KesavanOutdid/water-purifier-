@@ -5,174 +5,176 @@ import { showSuccessAlert, showErrorAlert } from '../../../../utils/alert';
 import axios from "axios";
 
 const useManageRoles = (userInfo) => {
-  const fetchCalled = useRef(false);
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
 
-  const [roles, setRoles] = useState([]);
-  const [filteredRoles, setFilteredRoles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [tableError, setTableError] = useState(null);
-  const [searchText, setSearchText] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
+    const fetchCalled = useRef(false);
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [roleName, setRoleName] = useState('');
-  const [formLoading, setFormLoading] = useState(false);
-  const [formError, setFormError] = useState(null);
+    const [roles, setRoles] = useState([]);
+    const [filteredRoles, setFilteredRoles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [tableError, setTableError] = useState(null);
+    const [searchText, setSearchText] = useState('');
+    const [selectedRole, setSelectedRole] = useState('');
 
-  const openAddModal = () => setIsAddModalOpen(true);
-  const closeAddModal = () => {
-    setIsAddModalOpen(false);
-    resetForm();
-  };
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [roleName, setRoleName] = useState('');
+    const [formLoading, setFormLoading] = useState(false);
+    const [formError, setFormError] = useState(null);
 
-  const resetForm = () => {
-    setRoleName('');
-    setFormError(null);
-  };
+    const openAddModal = () => setIsAddModalOpen(true);
+    const closeAddModal = () => {
+        setIsAddModalOpen(false);
+        resetForm();
+    };
 
-  const fetchRoles = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setTableError(null);
+    const resetForm = () => {
+        setRoleName('');
+        setFormError(null);
+    };
 
-      const response = await axiosInstance.post('api/admin/FetchUserRoles');
+    const fetchRoles = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            setTableError(null);
 
-      if (response.status === 200 && response.data.status === 'Success') {
-        const data = response.data.data || [];
-        setRoles(data);
-        setFilteredRoles(data);
-      } else {
-        setTableError('Failed to fetch roles');
-        setRoles([]);
-        setFilteredRoles([]);
-      }
-    } catch (err) {
-      console.error('Error fetching roles:', err);
-      setTableError('Error fetching roles. Please try again.');
-      setRoles([]);
-      setFilteredRoles([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+            const response = await axiosInstance.post(`${api_url}/api/admin/FetchUserRoles`);
 
-  useEffect(() => {
-    if (!fetchCalled.current) {
-      fetchRoles();
-      fetchCalled.current = true;
-    }
-  }, [fetchRoles]);
+            if (response.status === 200 && response.data.status === 'Success') {
+                const data = response.data.data || [];
+                setRoles(data);
+                setFilteredRoles(data);
+            } else {
+                setTableError('Failed to fetch roles');
+                setRoles([]);
+                setFilteredRoles([]);
+            }
+        } catch (err) {
+            console.error('Error fetching roles:', err);
+            setTableError('Error fetching roles. Please try again.');
+            setRoles([]);
+            setFilteredRoles([]);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
 
-  useEffect(() => {
-    const normalizedSearch = searchText.trim().toLowerCase();
-    const normalizedRole = selectedRole.trim().toLowerCase();
+    useEffect(() => {
+        if (!fetchCalled.current) {
+            fetchRoles();
+            fetchCalled.current = true;
+        }
+    }, [fetchRoles]);
 
-    const filtered = roles.filter((role) => {
-      const name = (role.role_name || '').toLowerCase();
-      const id = (role.role_id?.toString() || '').toLowerCase();
-      const matchesSearch =
-        normalizedSearch.length === 0 ||
-        name.includes(normalizedSearch) ||
-        id.includes(normalizedSearch);
-      const matchesRole =
-        normalizedRole.length === 0 ||
-        name === normalizedRole;
+    useEffect(() => {
+        const normalizedSearch = searchText.trim().toLowerCase();
+        const normalizedRole = selectedRole.trim().toLowerCase();
 
-      return matchesSearch && matchesRole;
-    });
+        const filtered = roles.filter((role) => {
+            const name = (role.role_name || '').toLowerCase();
+            const id = (role.role_id?.toString() || '').toLowerCase();
+            const matchesSearch =
+                normalizedSearch.length === 0 ||
+                name.includes(normalizedSearch) ||
+                id.includes(normalizedSearch);
+            const matchesRole =
+                normalizedRole.length === 0 ||
+                name === normalizedRole;
 
-    setFilteredRoles(filtered);
-  }, [roles, searchText, selectedRole]);
+            return matchesSearch && matchesRole;
+        });
 
-  const handleSearchInputChange = (e) => {
-    setSearchText(e.target.value);
-  };
+        setFilteredRoles(filtered);
+    }, [roles, searchText, selectedRole]);
 
-  const handleRoleSelect = (value) => {
-    setSelectedRole(value);
-  };
+    const handleSearchInputChange = (e) => {
+        setSearchText(e.target.value);
+    };
 
-  const resetRoleFilter = () => {
-    setSelectedRole('');
-  };
+    const handleRoleSelect = (value) => {
+        setSelectedRole(value);
+    };
 
-  const handleAddRoleSubmit = async (e) => {
-    e.preventDefault();
+    const resetRoleFilter = () => {
+        setSelectedRole('');
+    };
 
-    if (!roleName) {
-      setFormError('Role Name is required');
-      return;
-    }
+    const handleAddRoleSubmit = async (e) => {
+        e.preventDefault();
 
-    try {
-      setFormLoading(true);
-      setFormError(null);
+        if (!roleName) {
+            setFormError('Role Name is required');
+            return;
+        }
 
-      const payload = {
-        role_name: roleName,
-        created_by: userInfo.email,
-      };
+        try {
+            setFormLoading(true);
+            setFormError(null);
 
-      const response = await axiosInstance.post(
-        'api/admin/AddUserRoles',
-        payload
-      );
+            const payload = {
+                role_name: roleName,
+                created_by: userInfo.email,
+            };
 
-      if (response.status === 200 && response.data.status === 'Success') {
-        showSuccessAlert('Success', 'Role added successfully');
-        closeAddModal();
-        await fetchRoles();
-      } else {
-        const msg = response.data.message || 'Failed to add role';
-        setFormError(msg);
-        showErrorAlert('Error', msg);
-      }
-    } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Error adding role. Please try again.';
-      setFormError(msg);
-      showErrorAlert('Error', msg);
-    } finally {
-      setFormLoading(false);
-    }
-  };
+            const response = await axiosInstance.post(
+                `${api_url}/api/admin/AddUserRoles`,
+                payload
+            );
 
-  const isDuplicateRole = roles.some(
-    role => role.role_name?.toLowerCase() === roleName.toLowerCase()
-  );
+            if (response.status === 200 && response.data.status === 'Success') {
+                showSuccessAlert('Success', 'Role added successfully');
+                closeAddModal();
+                await fetchRoles();
+            } else {
+                const msg = response.data.message || 'Failed to add role';
+                setFormError(msg);
+                showErrorAlert('Error', msg);
+            }
+        } catch (err) {
+            const msg = err.response?.data?.message || err.message || 'Error adding role. Please try again.';
+            setFormError(msg);
+            showErrorAlert('Error', msg);
+        } finally {
+            setFormLoading(false);
+        }
+    };
 
-  const isAddDisabled = !roleName || isDuplicateRole || formLoading;
+    const isDuplicateRole = roles.some(
+        role => role.role_name?.toLowerCase() === roleName.toLowerCase()
+    );
 
-  const roleOptions = Array.from(
-    new Set(
-      roles
-        .map((role) => role.role_name?.trim())
-        .filter((name) => name)
-    )
-  ).sort((a, b) => a.localeCompare(b));
+    const isAddDisabled = !roleName || isDuplicateRole || formLoading;
 
-  const totalRoles = Array.isArray(roles) ? roles.length : 0;
+    const roleOptions = Array.from(
+        new Set(
+            roles
+                .map((role) => role.role_name?.trim())
+                .filter((name) => name)
+        )
+    ).sort((a, b) => a.localeCompare(b));
 
-  return {
-    roles: filteredRoles,
-    isLoading,
-    isAddDisabled,
-    tableError,
-    isAddModalOpen,
-    openAddModal,
-    closeAddModal,
-    roleName,
-    setRoleName,
-    formLoading,
-    formError,
-    handleAddRoleSubmit,
-    handleSearchInputChange,
-    handleRoleSelect,
-    resetRoleFilter,
-    roleOptions,
-    selectedRole,
-    totalRoles,
-    isDuplicateRole,
-  };
+    const totalRoles = Array.isArray(roles) ? roles.length : 0;
+
+    return {
+        roles: filteredRoles,
+        isLoading,
+        isAddDisabled,
+        tableError,
+        isAddModalOpen,
+        openAddModal,
+        closeAddModal,
+        roleName,
+        setRoleName,
+        formLoading,
+        formError,
+        handleAddRoleSubmit,
+        handleSearchInputChange,
+        handleRoleSelect,
+        resetRoleFilter,
+        roleOptions,
+        selectedRole,
+        totalRoles,
+        isDuplicateRole,
+    };
 };
 
 export default useManageRoles;

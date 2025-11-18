@@ -5,6 +5,8 @@ import axiosInstance from '../../../../utils/utils';
 import { showSuccessAlert, showErrorAlert } from '../../../../utils/alert';
 
 const useEditRoles = (userInfo) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -58,7 +60,7 @@ const useEditRoles = (userInfo) => {
                 status: selectStatus === 'true',
             };
 
-            const response = await axiosInstance.post('/api/admin/UpdateUserRoles', updatedRole);
+            const response = await axiosInstance.post(`${api_url}/api/admin/UpdateUserRoles`, updatedRole);
 
             if (response.status === 200) {
                 showSuccessAlert('Role updated successfully');

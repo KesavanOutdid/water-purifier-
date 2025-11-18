@@ -9,6 +9,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Lege
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const useDashboard = (userInfo) => {
+    
     const [totalChargers, setTotalChargers] = useState(0);
     const [availableChargers, setAvailableChargers] = useState(0);
     const [faultedChargers, setFaultedChargers] = useState(0);
