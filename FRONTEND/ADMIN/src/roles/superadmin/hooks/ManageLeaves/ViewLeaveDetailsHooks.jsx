@@ -3,6 +3,8 @@ import { showErrorAlert, showSuccessAlert } from '../../../../utils/alert';
 import axiosInstance from '../../../../utils/utils';
 
 const ViewLeaveDetailsHooks = (leaveRequestId, leaveFromState) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const [leaveDetails, setLeaveDetails] = useState(null);
     const [pendingTasks, setPendingTasks] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -105,7 +107,7 @@ const ViewLeaveDetailsHooks = (leaveRequestId, leaveFromState) => {
             return null;
         }
         try {
-            const response = await axiosInstance.get('/api/admin/GetServiceAssignmentHistory', {
+            const response = await axiosInstance.get(`${api_url}/api/admin/GetServiceAssignmentHistory`, {
                 params,
             });
             if (response.status === 200 && response.data?.status === 'Success') {
@@ -209,7 +211,7 @@ const ViewLeaveDetailsHooks = (leaveRequestId, leaveFromState) => {
             setError(null);
 
             const token = sessionStorage.getItem('superAdminToken');
-            const response = await fetch(`/api/api/admin/leave-requests/${leaveRequestId}`, {
+            const response = await fetch(`${api_url}/api/api/admin/leave-requests/${leaveRequestId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -280,7 +282,7 @@ const ViewLeaveDetailsHooks = (leaveRequestId, leaveFromState) => {
                 payload.user_id = technicianUserId;
             }
 
-            const tasksResponse = await axiosInstance.post('/api/admin/FetchTechnicianTasksByUserId', payload);
+            const tasksResponse = await axiosInstance.post(`${api_url}/api/admin/FetchTechnicianTasksByUserId`, payload);
 
             if (tasksResponse.status === 200) {
                 if (tasksResponse.data.status === 'Success') {
@@ -311,7 +313,7 @@ const ViewLeaveDetailsHooks = (leaveRequestId, leaveFromState) => {
             setActionError(null);
 
             const token = sessionStorage.getItem('superAdminToken');
-            const response = await fetch(`/api/api/admin/leave-requests/${leaveRequestId}/approve`, {
+            const response = await fetch(`${api_url}/api/api/admin/leave-requests/${leaveRequestId}/approve`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -387,7 +389,7 @@ const ViewLeaveDetailsHooks = (leaveRequestId, leaveFromState) => {
             setActionError(null);
 
             const token = sessionStorage.getItem('superAdminToken');
-            const response = await fetch(`/api/api/admin/leave-requests/${leaveRequestId}/reject`, {
+            const response = await fetch(`${api_url}/api/api/admin/leave-requests/${leaveRequestId}/reject`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

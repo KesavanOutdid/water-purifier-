@@ -6,6 +6,8 @@ import axiosInstance from '../../../../utils/utils';
 const DELIVERY_STATUS_ORDER = ['accepted', 'packed', 'intransit', 'outfordelivery', 'completed'];
 
 const buildDeliveryHistory = (history = []) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
   if (!Array.isArray(history)) return [];
 
   return history
@@ -195,7 +197,7 @@ const useViewOrders = () => {
       console.log('Fetching delivery details for order:', orderId);
       setIsLoading(true);
       setError('');
-      const response = await axiosInstance.get(`/api/website/orders/${orderId}/delivery-history`);
+        const response = await axiosInstance.get(`${api_url}/api/website/orders/${orderId}/delivery-history`);
 
       const history = response?.data?.data?.history || response?.data?.data?.deliveryHistory || [];
       const notes = response?.data?.data?.notes || response?.data?.data?.deliveryNotes || [];

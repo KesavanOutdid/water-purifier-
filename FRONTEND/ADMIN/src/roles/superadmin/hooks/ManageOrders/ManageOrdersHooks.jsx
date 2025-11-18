@@ -4,6 +4,8 @@ import { showErrorAlert, showSuccessAlert } from '../../../../utils/alert';
 import axiosInstance from '../../../../utils/utils';
 
 const useManageOrders = (userInfo) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,7 +26,7 @@ const useManageOrders = (userInfo) => {
         try {
             setLoading(true);
             const isSeller = Number(userInfo?.role_id) === 4;
-            const url = isSeller ? '/api/admin/orders/by-district' : 'api/admin/FetchOrders';
+            const url = isSeller ? `${api_url}/api/admin/orders/by-district` : `${api_url}/api/admin/FetchOrders`;
             const res = isSeller
               ? await axiosInstance.get(url, { params: { district: userInfo?.district } })
               : await axiosInstance.post(url);
@@ -255,7 +257,7 @@ const useManageOrders = (userInfo) => {
         e.preventDefault();
         setEditLoading(true);
         try {
-            const response = await axiosInstance.post('api/admin/UpdateOrdersStatus', {
+            const response = await axiosInstance.post(`${api_url}/api/admin/UpdateOrdersStatus`, {
                 order_id: selectedOrder._id,
                 orderStatus: editOrderStatus,
                 modified_by: userInfo.email,

@@ -7,6 +7,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import axiosInstance from '../../../../utils/utils';
 
 const Dashboard = ({ userInfo, handleLogout }) => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const [analyticsData, setAnalyticsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -33,7 +35,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
         if (!isSeller) {
             const fetchDistricts = async () => {
                 try {
-                    const res = await axiosInstance.get('/api/admin/GetDistrictsWithSellers');
+                    const res = await axiosInstance.get(`${api_url}/api/admin/GetDistrictsWithSellers`);
                     if (res.data?.status === 'Success') {
                         setDistricts(res.data.data);
                     }
@@ -50,14 +52,14 @@ const Dashboard = ({ userInfo, handleLogout }) => {
         const loadData = async () => {
             try {
                 setLoading(true);
-                let url = '/api/admin/analytics';
+                let url = `${api_url}/api/admin/analytics`;
                 let params = {};
 
                 if (isSeller) {
-                    url = '/api/admin/analytics/by-district';
+                    url = `${api_url}/api/admin/analytics/by-district`;
                     params = { district: userInfo?.district };
                 } else if (selectedDistrict !== 'all') {
-                    url = '/api/admin/analytics/by-district';
+                    url = `${api_url}/api/admin/analytics/by-district`;
                     params = { district: selectedDistrict };
                 }
 

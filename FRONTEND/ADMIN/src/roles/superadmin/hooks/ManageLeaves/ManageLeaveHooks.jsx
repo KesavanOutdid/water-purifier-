@@ -3,6 +3,8 @@ import { showErrorAlert } from '../../../../utils/alert';
 import axiosInstance from '../../../../utils/utils';
 
 const ManageLeaveHooks = () => {
+    const api_url = import.meta.env.VITE_API_URL || "https://water-purifier.onrender.com";
+
     const [leaveRequests, setLeaveRequests] = useState([]);
     const [filteredLeaves, setFilteredLeaves] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ const ManageLeaveHooks = () => {
             setLoading(true);
             setError(null);
 
-            const response = await axiosInstance.get('/api/admin/leave-requests');
+            const response = await axiosInstance.get(`${api_url}/api/admin/leave-requests`);
 
             if (response.data.success) {
                 const leaves = response.data.data;
