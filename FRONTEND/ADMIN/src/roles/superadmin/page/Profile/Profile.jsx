@@ -2,7 +2,7 @@
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import Footer from '../../components/Footer';
-import useProfile from '../../hooks/Profile/ProfileHooks';
+import useProfile from '../../hooks/Profile/ProfileHooks.jsx';
 import ReusableButton from '../../../../utils/ReusableButton';
 import InputField from '../../../../utils/InputField';
 
